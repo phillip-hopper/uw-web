@@ -265,6 +265,9 @@ input:focus {
 	background-image: url(images/audio-ear.svg);
 }
 
+.publish-button {
+    background-image: url(images/publish.svg);
+}
 
 .window .window-header .header-button {
 	padding: 8px 4px 6px 4px;

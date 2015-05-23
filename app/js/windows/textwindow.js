@@ -24,6 +24,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 						'<div class="app-list text-list"></div>'+
 						'<span class="header-icon info-button"></span>'+
 						'<span class="header-icon audio-button"></span>'+
+                        '<span class="header-icon publish-button"></span>'+
 					'</div>'+
 				'</div>'+
 				'<div class="scroller-flipper">' +
@@ -39,6 +40,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 		header = container.find('.scroller-header'),
 		main = container.find('.scroller-main'),
 		info = container.find('.scroller-info'),
+        publishBtn = container.find('.publish-button'),
 		infoBtn = container.find('.info-button'),
 		wrapper = container.find('.scroller-text-wrapper'),
 		navui = header.find('.text-nav'),
@@ -58,6 +60,10 @@ var TextWindow = function(id, parent, init_data, text_type) {
 		hasFocus = false,
 		isInitialized = false;
 
+
+    if(typeof sofia.customConfigs.publishServerPath === 'undefined') {
+        publishBtn.hide();
+    }
 
 	/*
 	if (Detection.hasTouch) {
@@ -117,6 +123,14 @@ var TextWindow = function(id, parent, init_data, text_type) {
 		}
 
 	});
+
+    // submit the publish request to the server
+    publishBtn.on('click', function() {
+        // TODO: post the publish commands
+        $.post(sofia.customConfigs.publishServerPath, {}, function(data, textStatus, jqXHR ) {
+            alert(data);
+        });
+    });
 
 
 	// DOM to object stuff
@@ -472,6 +486,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 
 			audioui.appendTo(tcHeader);
 			infoBtn.appendTo(tcHeader);
+            publishBtn.appendTo(tcHeader);
 
 			iconsAreNormal = false;
 		}
@@ -487,6 +502,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 
 			audioui.appendTo(headerInner);
 			infoBtn.appendTo(headerInner);
+            publishBtn.appendTo(tcHeader);
 
 			iconsAreNormal = true;
 		}

@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "author": "John Dyer <johndyer@gmail.com>",
   "description": "Generates HTML bibles for BrowserBible",
-  "dependencies" : {
-    "jquery"   :  "*",
-    "uglifyjs" : "*",
-    "uglifycss" : "*",
-    "jsdom"    :  "*",
-    "progress": "*",
+  "dependencies": {
+    "jquery": "*",
+    "jsdom": "*",
     "minimist": "*",
-    "mkdirp": "*"
+    "mkdirp": "*",
+    "natural": "^0.2.1",
+    "progress": "*",
+    "uglifycss": "*",
+    "uglifyjs": "*"
   },
   "license": "MIT"
 }

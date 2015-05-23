@@ -36,6 +36,11 @@ sofia.config = {
 	// (2) Enter path of script that will return JSON data
 	serverSearchPath: '',
 
+    // URL to the publish endpoint on the server
+    // this is where publishing commands will be sent
+    // Leave blank to disable publishing
+    publishServerPath: '',
+
 	// texts shown before the "MORE" button ("eng-NASB1995", "eng-kjv", "eng_net")
 	topTexts: [],
 
