@@ -210,7 +210,6 @@ TextLoader = (function() {
 				}
 			}
 		}
-
 		loadNextProvider();
 
 	}
