@@ -48,6 +48,13 @@ var uwGrabAvailableTexts = function() {
    */
   var glob = require('glob');
   /**
+   * Nodejs package country-language for finding country language data
+   *
+   * @type {Object}
+   * @access private
+   */
+  var countryLanguage = require('country-language');
+  /**
    * The url to grab the available Bible texts from
    *
    * @type {String}
@@ -133,19 +140,31 @@ var uwGrabAvailableTexts = function() {
   function parseBibleData(bibleData) {
     display('Parsing the Bible data.');
     for (var i = 0; i < bibleData.length; i++) {
-      var language = bibleData[i].lc;
+      var langCode = bibleData[i].lc;
+      var language = countryLanguage.getLanguage(langCode);
       var versions = bibleData[i].vers;
       for (var n = 0; n < versions.length; n++) {
         var version = versions[n];
-        var id = 'uw_' + language + '_' + version.slug;
+        var versionInfo = {
+          id:               'uw_' + langCode + '_' + version.slug,
+          abbr:             version.slug.toUpperCase(),
+          name:             version.name,
+          nameEnglish:      '',
+          lang:             language.iso639_3,
+          langName:         language.nativeName[0],
+          langNameEnglish:  language.name[0],
+          dir:              language.direction.toLowerCase(),
+          generator:        'usfm'
+        };
         /**
          * Let's create the directory for the files
          */
-        mkdirp('input/' + id, function(error) {
+        mkdirp('input/' + versionInfo.id, function(error) {
           if (error) {
-            display('Unable to create the directory: ' + id + ' received error: ' + error, true);
+            display('Unable to create the directory: ' + versionInfo.id + ' received error: ' + error, true);
           } else {
-            display('Created directory: ' + id);
+            display('Created directory: ' + versionInfo.id);
+
           }
         });
       }
