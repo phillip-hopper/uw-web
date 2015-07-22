@@ -4,6 +4,7 @@
   "author": "John Dyer <johndyer@gmail.com>",
   "description": "Generates HTML bibles for BrowserBible",
   "dependencies": {
+    "country-language": "^0.1.7",
     "glob": "^5.0.14",
     "jquery": "*",
     "jsdom": "*",
