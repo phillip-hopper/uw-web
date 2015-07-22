@@ -71,6 +71,14 @@ var uwGrabAvailableTexts = function() {
     var start = (isError) ? 'X Error > ' : '> ';
     console.log(start + msg);
   }
+  /**
+   * Prepare the folders for the ufw content.  We remove all folders with a uw prefix
+   * in the input folder
+   *
+   * @return {void}
+   *
+   * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+   */
   function prepareFolder() {
     display('Preparing the input folder.');
     glob('input/uw_*', {}, function(error, files) {
@@ -84,12 +92,12 @@ var uwGrabAvailableTexts = function() {
             }
           });
         };
-        // grabContent();
       }
     });
   }
   /**
-   * Grab the json object from the latest Unfolding Word catalog feed
+   * Grab the json object from the latest Unfolding Word catalog feed.
+   * Once the content is received, we pass it to the parseBibleData() function.
    *
    * @return {void}
    *
@@ -157,6 +165,7 @@ var uwGrabAvailableTexts = function() {
    */
   uwObject.process = function() {
     prepareFolder();
+    grabContent();
   };
   /**
    * Return this object
