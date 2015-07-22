@@ -16,12 +16,21 @@ var uwGrabAvailableTexts = function() {
    * This classes main object
    *
    * @type {Object}
+   * @access private
    */
   var uwObject = {};
+  /**
+   * Do you want to keep the Bible versions included with this repo?
+   *
+   * @type {Boolean}
+   * @access public
+   */
+  uwObject.keepOtherVersions = false;
   /**
    * The url to grab the available Bible texts from
    *
    * @type {String}
+   * @access private
    */
   var url = 'https://api.unfoldingword.org/uw/txt/2/catalog.json';
   /**
@@ -29,6 +38,9 @@ var uwGrabAvailableTexts = function() {
    */
   function prepareFolder() {
     console.log('Preparing the input folder.');
+    if (uwObject.keepOtherVersions) {
+      console.log('Removing all the old versions of the Bible.');
+    };
   }
   function grabContent() {
     console.log('Grabing content from ' + url + '.');
@@ -44,6 +56,7 @@ var uwGrabAvailableTexts = function() {
    * Run the process of grabbing all the texts and downloading the files locally
    *
    * @return {void}
+   * @access public
    *
    * @author Johnathan Pulos <johnathan@missionaldigerati.org>
    */
@@ -59,4 +72,5 @@ var uwGrabAvailableTexts = function() {
 };
 
 var uw = new uwGrabAvailableTexts;
+uw.keepOtherVersions = false;
 uw.process();
