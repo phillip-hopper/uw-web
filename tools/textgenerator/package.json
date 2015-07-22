@@ -10,6 +10,7 @@
     "mkdirp": "*",
     "natural": "^0.2.1",
     "progress": "*",
+    "request": "^2.60.0",
     "uglifycss": "*",
     "uglifyjs": "*"
   },
