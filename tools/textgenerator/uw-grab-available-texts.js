@@ -25,6 +25,22 @@ var uwGrabAvailableTexts = function() {
    */
   var url = 'https://api.unfoldingword.org/uw/txt/2/catalog.json';
   /**
+   * All of our private methods
+   */
+  function prepareFolder() {
+    console.log('Preparing the input folder.');
+  }
+  function grabContent() {
+    console.log('Grabing content from ' + url + '.');
+  }
+  function parseContent(data) {
+    console.log('Parsing the content.');
+  }
+  /**
+   * All of our public methods
+   */
+
+  /**
    * Run the process of grabbing all the texts and downloading the files locally
    *
    * @return {void}
@@ -32,7 +48,9 @@ var uwGrabAvailableTexts = function() {
    * @author Johnathan Pulos <johnathan@missionaldigerati.org>
    */
   uwObject.process = function() {
-    
+    prepareFolder();
+    var data = grabContent();
+    parseContent(data);
   };
   /**
    * Return this object
