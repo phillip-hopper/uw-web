@@ -19,14 +19,19 @@ var uwGrabAvailableTexts = function() {
    * @access private
    */
   var uwObject = {};
+  /**
+   * Nodejs package request for grabbing the JSON
+   *
+   * @type {Object}
+   * @access private
+   */
   var request = require('request');
   /**
-   * Do you want to keep the Bible versions included with this repo?
+   * Nodejs package mkdirp for creating directories
    *
-   * @type {Boolean}
-   * @access public
+   * @type {Object}
    */
-  uwObject.keepOtherVersions = false;
+  var mkdirp = require("mkdirp");
   /**
    * The url to grab the available Bible texts from
    *
@@ -47,14 +52,13 @@ var uwGrabAvailableTexts = function() {
    *
    * @author Johnathan Pulos <johnathan@missionaldigerati.org>
    */
-  function display(msg) {
-    console.log('-> ' + msg);
+  function display(msg, isError) {
+    var start = (isError) ? 'X Error > ' : '> ';
+    console.log(start + msg);
   }
   function prepareFolder() {
     display('Preparing the input folder.');
-    if (uwObject.keepOtherVersions === false) {
-      display('Removing all the old versions of the Bible.');
-    }
+    
   }
   /**
    * Grab the json object from the latest Unfolding Word catalog feed
@@ -73,16 +77,16 @@ var uwGrabAvailableTexts = function() {
           if (data.cat[i].slug == 'bible') {
             bibles = data.cat[i].langs;
           }
-        };
+        }
         parseBibleData(bibles);
       } else {
-        display('Unable to pull the content: ' + error);
+        display('Unable to pull the content: ' + error, true);
       }
     });
   }
   /**
    * Takes the bible content from the latest Unfolding Word catalog feed,
-   * and parses through it.
+   * and parses through it, and creates the folder and files for each version.
    *
    * @param  {Object} bibleData The JSON Object of available bibles
    *
@@ -92,7 +96,24 @@ var uwGrabAvailableTexts = function() {
    */
   function parseBibleData(bibleData) {
     display('Parsing the Bible data.');
-    console.log(bibleData);
+    for (var i = 0; i < bibleData.length; i++) {
+      var language = bibleData[i].lc;
+      var versions = bibleData[i].vers;
+      for (var n = 0; n < versions.length; n++) {
+        var version = versions[n];
+        var id = 'uw_' + language + '_' + version.slug;
+        /**
+         * Let's create the directory for the files
+         */
+        mkdirp('input/' + id, function(error) {
+          if (error) {
+            display('Unable to create the directory: ' + id + ' received error: ' + error, true);
+          } else {
+            display('Created directory: ' + id);
+          }
+        });
+      }
+    }
   }
   /**
    * All of our public methods
@@ -117,5 +138,4 @@ var uwGrabAvailableTexts = function() {
 };
 
 var uw = new uwGrabAvailableTexts;
-uw.keepOtherVersions = false;
 uw.process();
