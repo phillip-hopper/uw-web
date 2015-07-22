@@ -55,6 +55,13 @@ var uwGrabAvailableTexts = function() {
    */
   var fileSystem = require('fs');
   /**
+   * Nodejs package download for downloading files
+   *
+   * @type {Object}
+   * @access private
+   */
+  var download = require('download');
+  /**
    * The url to grab the available Bible texts from
    *
    * @type {String}
@@ -130,7 +137,7 @@ var uwGrabAvailableTexts = function() {
    * @author Johnathan Pulos <johnathan@missionaldigerati.org>
    */
   function grabContent() {
-    display('Grabing content from ' + catalogUrl + '.');
+    display('Grabbing content from ' + catalogUrl + '.');
     request(catalogUrl, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         var data = JSON.parse(body);
@@ -176,7 +183,6 @@ var uwGrabAvailableTexts = function() {
           generator:        'usfm'
         };
         var files = getFiles(version.toc);
-        console.log(files);
         /**
          * Let's create the directory for the files
          */
@@ -192,7 +198,12 @@ var uwGrabAvailableTexts = function() {
         /**
          * Now download all the files
          */
-        
+        display('Downloading the usfm files... This may take a while... Go grab a cup of coffee...');
+        var fileDownload = new download({mode: 755});
+        for (var f = 0; f < files.length; f++) {
+          fileDownload.get(files[f]);
+        };
+        fileDownload.dest('input/' + versionInfo.id).run();
       }
     }
   }
