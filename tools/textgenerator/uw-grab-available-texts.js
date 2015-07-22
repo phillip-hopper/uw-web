@@ -30,8 +30,23 @@ var uwGrabAvailableTexts = function() {
    * Nodejs package mkdirp for creating directories
    *
    * @type {Object}
+   * @access private
    */
-  var mkdirp = require("mkdirp");
+  var mkdirp = require('mkdirp');
+  /**
+   * Nodejs package rimraf for deleting directories recursively
+   *
+   * @type {Object}
+   * @access private
+   */
+  var rimraf = require('rimraf');
+  /**
+   * Nodejs package glob for finding files
+   *
+   * @type {Object}
+   * @access private
+   */
+  var glob = require('glob');
   /**
    * The url to grab the available Bible texts from
    *
@@ -58,7 +73,20 @@ var uwGrabAvailableTexts = function() {
   }
   function prepareFolder() {
     display('Preparing the input folder.');
-    
+    glob('input/uw_*', {}, function(error, files) {
+      if (error) {
+        display('Unable to locate directories to clean up received error: ' + error, true);
+      } else {
+        for (var i = 0; i < files.length; i++) {
+          rimraf(files[i], function(error) {
+            if (error) {
+              display('Unable to delete the directory: ' + files[i] + ' received error: ' + error, true);
+            }
+          });
+        };
+        // grabContent();
+      }
+    });
   }
   /**
    * Grab the json object from the latest Unfolding Word catalog feed
@@ -129,7 +157,6 @@ var uwGrabAvailableTexts = function() {
    */
   uwObject.process = function() {
     prepareFolder();
-    grabContent();
   };
   /**
    * Return this object
