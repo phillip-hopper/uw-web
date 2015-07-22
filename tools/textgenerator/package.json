@@ -5,7 +5,7 @@
   "description": "Generates HTML bibles for BrowserBible",
   "dependencies": {
     "country-language": "^0.1.7",
-    "glob": "^5.0.14",
+    "del": "^1.2.0",
     "jquery": "*",
     "jsdom": "*",
     "minimist": "*",
@@ -13,7 +13,6 @@
     "natural": "^0.2.1",
     "progress": "*",
     "request": "^2.60.0",
-    "rimraf": "^2.4.2",
     "uglifycss": "*",
     "uglifyjs": "*"
   },

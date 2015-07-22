@@ -34,19 +34,12 @@ var uwGrabAvailableTexts = function() {
    */
   var mkdirp = require('mkdirp');
   /**
-   * Nodejs package rimraf for deleting directories recursively
+   * Nodejs package del for finding and deleting directories
    *
    * @type {Object}
    * @access private
    */
-  var rimraf = require('rimraf');
-  /**
-   * Nodejs package glob for finding files
-   *
-   * @type {Object}
-   * @access private
-   */
-  var glob = require('glob');
+  var del = require('del');
   /**
    * Nodejs package country-language for finding country language data
    *
@@ -55,12 +48,27 @@ var uwGrabAvailableTexts = function() {
    */
   var countryLanguage = require('country-language');
   /**
+   * Nodejs package filesystem for writing files
+   *
+   * @type {Object}
+   * @access private
+   */
+  var fileSystem = require('fs');
+  /**
    * The url to grab the available Bible texts from
    *
    * @type {String}
    * @access private
    */
   var catalogUrl = 'https://api.unfoldingword.org/uw/txt/2/catalog.json';
+  /**
+   * An array of all the current directories that will need to be removed on preparation.
+   * This variable is used to track progress on deleting the folders. (async)
+   *
+   * @type {Array}
+   * @access private
+   */
+  var currentDirectories = [];
   /**
    * All of our private methods
    */
@@ -86,21 +94,32 @@ var uwGrabAvailableTexts = function() {
    *
    * @author Johnathan Pulos <johnathan@missionaldigerati.org>
    */
-  function prepareFolder() {
+  function prepareFolder(_callback) {
     display('Preparing the input folder.');
-    glob('input/uw_*', {}, function(error, files) {
+    del(['input/uw_*'], function (error) {
       if (error) {
         display('Unable to locate directories to clean up received error: ' + error, true);
       } else {
-        for (var i = 0; i < files.length; i++) {
-          rimraf(files[i], function(error) {
-            if (error) {
-              display('Unable to delete the directory: ' + files[i] + ' received error: ' + error, true);
-            }
-          });
-        };
+        _callback();
       }
     });
+  }
+  /**
+   * Iterates over the toc data, and makes an array of the files to download
+   *
+   * @param  {Array} tocData An array of JSON objects storing all the Bible files
+   *
+   * @return {Array}         An array of all the files to download
+   * @access private
+   *
+   * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+   */
+  function getFiles(tocData) {
+    var files = [];
+    for (var i = 0; i < tocData.length; i++) {
+      files.push(tocData[i].src);
+    };
+    return files;
   }
   /**
    * Grab the json object from the latest Unfolding Word catalog feed.
@@ -156,17 +175,24 @@ var uwGrabAvailableTexts = function() {
           dir:              language.direction.toLowerCase(),
           generator:        'usfm'
         };
+        var files = getFiles(version.toc);
+        console.log(files);
         /**
          * Let's create the directory for the files
          */
-        mkdirp('input/' + versionInfo.id, function(error) {
+        mkdirp('input/' + versionInfo.id);
+        /**
+         * let's add the info.json file
+         */
+        fileSystem.writeFile('input/' + versionInfo.id + '/info.json', JSON.stringify(versionInfo), function(error) {
           if (error) {
-            display('Unable to create the directory: ' + versionInfo.id + ' received error: ' + error, true);
-          } else {
-            display('Created directory: ' + versionInfo.id);
-
+            display('Unable to create the info JSON file at: input/' + versionInfo.id + '/info.json because: ' + error);
           }
         });
+        /**
+         * Now download all the files
+         */
+        
       }
     }
   }
@@ -183,8 +209,9 @@ var uwGrabAvailableTexts = function() {
    * @author Johnathan Pulos <johnathan@missionaldigerati.org>
    */
   uwObject.process = function() {
-    prepareFolder();
-    grabContent();
+    prepareFolder(function () {
+      grabContent();
+    });
   };
   /**
    * Return this object
