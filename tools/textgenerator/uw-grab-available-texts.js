@@ -19,6 +19,7 @@ var uwGrabAvailableTexts = function() {
    * @access private
    */
   var uwObject = {};
+  var request = require('request');
   /**
    * Do you want to keep the Bible versions included with this repo?
    *
@@ -32,21 +33,66 @@ var uwGrabAvailableTexts = function() {
    * @type {String}
    * @access private
    */
-  var url = 'https://api.unfoldingword.org/uw/txt/2/catalog.json';
+  var catalogUrl = 'https://api.unfoldingword.org/uw/txt/2/catalog.json';
   /**
    * All of our private methods
    */
+  /**
+   * A shortcut function for sending your message to the terminal
+   *
+   * @param  {String} msg The message to display
+   *
+   * @return {void}
+   * @access private
+   *
+   * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+   */
+  function display(msg) {
+    console.log('-> ' + msg);
+  }
   function prepareFolder() {
-    console.log('Preparing the input folder.');
-    if (uwObject.keepOtherVersions) {
-      console.log('Removing all the old versions of the Bible.');
-    };
+    display('Preparing the input folder.');
+    if (uwObject.keepOtherVersions === false) {
+      display('Removing all the old versions of the Bible.');
+    }
   }
+  /**
+   * Grab the json object from the latest Unfolding Word catalog feed
+   *
+   * @return {void}
+   *
+   * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+   */
   function grabContent() {
-    console.log('Grabing content from ' + url + '.');
+    display('Grabing content from ' + catalogUrl + '.');
+    request(catalogUrl, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var data = JSON.parse(body);
+        var bibles = [];
+        for (var i = 0; i < data.cat.length; i++) {
+          if (data.cat[i].slug == 'bible') {
+            bibles = data.cat[i].langs;
+          }
+        };
+        parseBibleData(bibles);
+      } else {
+        display('Unable to pull the content: ' + error);
+      }
+    });
   }
-  function parseContent(data) {
-    console.log('Parsing the content.');
+  /**
+   * Takes the bible content from the latest Unfolding Word catalog feed,
+   * and parses through it.
+   *
+   * @param  {Object} bibleData The JSON Object of available bibles
+   *
+   * @return {void}
+   *
+   * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+   */
+  function parseBibleData(bibleData) {
+    display('Parsing the Bible data.');
+    console.log(bibleData);
   }
   /**
    * All of our public methods
@@ -62,8 +108,7 @@ var uwGrabAvailableTexts = function() {
    */
   uwObject.process = function() {
     prepareFolder();
-    var data = grabContent();
-    parseContent(data);
+    grabContent();
   };
   /**
    * Return this object
