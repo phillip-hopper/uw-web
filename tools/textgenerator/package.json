@@ -8,7 +8,7 @@
     "del": "^1.2.0",
     "download": "^4.1.4",
     "jquery": "*",
-    "jsdom": "*",
+    "jsdom": "3.1.2",
     "minimist": "*",
     "mkdirp": "*",
     "natural": "^0.2.1",
