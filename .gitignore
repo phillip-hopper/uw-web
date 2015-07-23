@@ -10,3 +10,4 @@ app/content/texts/
 !app/content/texts/README.md
 .idea
 .DS_Store
+npm-debug.log
