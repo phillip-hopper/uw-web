@@ -19,7 +19,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "should": "^7.0.2"
   },
   "scripts": {
     "test": "mocha ./tests"
