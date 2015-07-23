@@ -17,5 +17,11 @@
     "uglifycss": "*",
     "uglifyjs": "*"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  },
+  "scripts": {
+    "test": "mocha ./tests"
+  }
 }
