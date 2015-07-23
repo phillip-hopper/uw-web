@@ -11,3 +11,4 @@ app/content/texts/
 **/node_modules/
 !**/node_modules/*.js
 .idea
+.DS_Store
