@@ -4,12 +4,16 @@
   "author": "John Dyer <johndyer@gmail.com>",
   "description": "Generates HTML bibles for BrowserBible",
   "dependencies": {
+    "country-language": "^0.1.7",
+    "del": "^1.2.0",
+    "download": "^4.1.4",
     "jquery": "*",
-    "jsdom": "*",
+    "jsdom": "3.1.2",
     "minimist": "*",
     "mkdirp": "*",
     "natural": "^0.2.1",
     "progress": "*",
+    "request": "^2.60.0",
     "uglifycss": "*",
     "uglifyjs": "*"
   },
