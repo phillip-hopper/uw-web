@@ -199,7 +199,7 @@ var uwGrabAvailableTexts = function() {
          * Now download all the files
          */
         display('Downloading the usfm files... This may take a while... Go grab a cup of coffee...');
-        var fileDownload = new download({mode: 755});
+        var fileDownload = new download({});
         for (var f = 0; f < files.length; f++) {
           fileDownload.get(files[f]);
         };
