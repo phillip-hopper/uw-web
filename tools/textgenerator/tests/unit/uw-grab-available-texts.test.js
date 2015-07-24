@@ -14,6 +14,9 @@ describe('uwGrabAvailableTexts', function() {
   var delStub;
   var requestStub;
   var countryLanguageStub;
+  var mkdirpStub;
+  var fileSystemStub;
+  var downloadStub;
   var uw;
 
   before(function() {
@@ -25,16 +28,26 @@ describe('uwGrabAvailableTexts', function() {
 
     delStub = sinon.stub();
     requestStub = sinon.stub();
+    mkdirpStub = sinon.stub();
     countryLanguageStub = {
       getLanguage: sinon.stub()
     };
+    fileSystemStub = {
+      writeFile: sinon.stub()
+    };
+    exports.Download = function(options) {};
+    downloadStub = sinon.stub(exports, 'Download').returns({get: sinon.stub(), dest: sinon.stub(), run: sinon.stub()});
 
     mockery.registerMock('del', delStub);
     mockery.registerMock('request', requestStub);
     mockery.registerMock('country-language', countryLanguageStub);
+    mockery.registerMock('mkdirp', mkdirpStub);
+    mockery.registerMock('fs', fileSystemStub);
+    mockery.registerMock('download', downloadStub);
     uw = require('unfolding-word/uw-grab-available-texts');
     uw.destinationFolder = 'tests/support/input';
     uw.catalogUrl = 'http://test.com/test';
+    uw.silenceNotification = true;
   });
 
   it("should prepare the input folder by removing the old uw_ directories", function() {
@@ -100,6 +113,45 @@ describe('uwGrabAvailableTexts', function() {
       countryLanguageStub.getLanguage.calledTwice.should.be.equal(true);
     });
     
+  });
+
+  describe("Function downloadBibles", function() {
+
+    beforeEach(function() {
+      requestStub.yields(null, {statusCode: 200}, JSON.stringify(uwFeedData));
+      countryLanguageStub.getLanguage.yields(null, englishData);
+      uw.getBibles(function(bibles) {
+        uw.downloadBibles(bibles);
+      });
+    });
+    
+    it("should create the correct directory for the files", function() {
+      mkdirpStub.called.should.be.equal(true);
+      mkdirpStub.calledTwice.should.be.equal(true);
+      mkdirpStub.firstCall.calledWith('tests/support/input/uw_en_udb').should.be.equal(true);
+      mkdirpStub.secondCall.calledWith('tests/support/input/uw_en_ulb').should.be.equal(true);
+    });
+
+    it("should create the info.json files", function() {
+      var firstInfoJson = JSON.stringify({id:'uw_en_udb',abbr:'UDB',name:'Unlocked Dynamic Bible',nameEnglish:'',lang:'eng',langName:'English',langNameEnglish:'English',dir:'ltr',generator:'usfm'});
+      var secondInfoJson = JSON.stringify({id:'uw_en_ulb',abbr:'ULB',name:'Unlocked Literal Bible',nameEnglish:'',lang:'eng',langName:'English',langNameEnglish:'English',dir:'ltr',generator:'usfm'});
+      fileSystemStub.writeFile.called.should.be.equal(true);
+      fileSystemStub.writeFile.firstCall.calledWith('tests/support/input/uw_en_udb/info.json', firstInfoJson).should.be.equal(true);
+      fileSystemStub.writeFile.secondCall.calledWith('tests/support/input/uw_en_ulb/info.json', secondInfoJson).should.be.equal(true);
+    });
+
+    it("should download all the files for the Bibles", function() {
+      downloadStub.called.should.be.equal(true);
+      var download = new downloadStub;
+      download.get.called.should.be.equal(true);
+      download.get.firstCall.calledWith('https://api.unfoldingword.org/udb/txt/1/udb-en/01-GEN.usfm').should.be.equal(true);
+      download.get.secondCall.calledWith('https://api.unfoldingword.org/ulb/txt/1/ulb-en/01-EXD.usfm').should.be.equal(true);
+      download.dest.called.should.be.equal(true);
+      download.dest.firstCall.calledWith('tests/support/input/uw_en_udb').should.be.equal(true);
+      download.dest.secondCall.calledWith('tests/support/input/uw_en_ulb').should.be.equal(true);
+      download.run.called.should.be.equal(true);
+    });
+
   });
 
   after(function() {
