@@ -7,7 +7,7 @@ A bible software that runs the [Unfolding Word](http://unfoldingword.org) Bibles
 1. Make sure you have [Node.js](http://nodejs.org/download/) installed.
 2. Navigate to the `/tools/textgenerator` folder.
 3. Run `npm install` to install dependencies.
-4. Run `node uw-grab-available-texts.js` (This will pull down all the latest versions of UW Bibles)
+4. Run `node uw-grab-bibles.js` (This will pull down all the latest versions of UW Bibles)
 
 ### Building The Unfolding Word Bibles ###
 
