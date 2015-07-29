@@ -1,4 +1,5 @@
 # Unfolding Word Web Bibles #
+[![Build Status](https://travis-ci.org/unfoldingWord-dev/uw-web.svg?branch=develop)](https://travis-ci.org/unfoldingWord-dev/uw-web)
 
 A bible software that runs the [Unfolding Word](http://unfoldingword.org) Bibles in the browser. See changelog.md for recent updates.  This code is an update of the [Browser Bible App](https://github.com/digitalbiblesociety/browserbible).
 
