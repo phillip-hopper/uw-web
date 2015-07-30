@@ -42,6 +42,16 @@ describe('uwGenerateUsfm', function() {
       var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
     });
 
+    describe("Return Data: indexLemmaData", function() {
+      
+      it("should return an empty object by default", function() {
+        var inputBasePath = path.join(testFilePath, 'short_books');
+        var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+        result.indexLemmaData.should.deep.equal({});
+      });
+
+    });
+
     describe("Return Data: aboutHtml", function() {
 
       it("should return the about.html content if the file exists", function() {
