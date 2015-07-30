@@ -53,6 +53,26 @@ describe('uwGenerateUsfm', function() {
         actual.should.have.all.members(expected);
       });
 
+      it("should return the correct titles for each book", function() {
+        var expected = [
+          'Jude\'s Letter 1',
+          'John\'s Third Letter 1',
+          'The Letter from James 5',
+          'The Letter from James 4',
+          'The Letter from James 3',
+          'The Letter from James 2',
+          'The Letter from James 1'
+        ];
+        var inputBasePath = path.join(testFilePath, 'short_books');
+        var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+        var actual = [];
+        result.chapterData.length.should.equal(expected.length);
+        for (var i = result.chapterData.length - 1; i >= 0; i--) {
+          actual.push(result.chapterData[i].title);
+        };
+        actual.should.have.all.members(expected);
+      });
+
     });
 
     describe("Return Data: indexLemmaData", function() {
