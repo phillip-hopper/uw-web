@@ -73,7 +73,7 @@ describe('uwGenerateUsfm', function() {
         actual.should.have.all.members(expected);
       });
 
-      it("should return the correct prevId's for the chapter", function() {
+      it("should return the correct previd's for the chapter", function() {
         /**
          * These are the id for the chapter previous to the current one based only on the files given.
          * So Hebrews won't be previous since we do not give the Hebrews USFM document
@@ -92,7 +92,31 @@ describe('uwGenerateUsfm', function() {
         var actual = [];
         result.chapterData.length.should.equal(expected.length);
         for (var i = result.chapterData.length - 1; i >= 0; i--) {
-          actual.push(result.chapterData[i].prevId);
+          actual.push(result.chapterData[i].previd);
+        };
+        actual.should.have.all.members(expected);
+      });
+      
+      it("should return the correct nextid's for the chapter", function() {
+        /**
+         * These are the id for the chapter following to the current one based only on the files given.
+         * So Revelations won't be following since we do not give the Revelations USFM document
+         */
+        var expected = [
+          null,
+          'JD1',
+          'J31',
+          'JM5',
+          'JM4',
+          'JM3',
+          'JM2'
+        ];
+        var inputBasePath = path.join(testFilePath, 'short_books');
+        var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+        var actual = [];
+        result.chapterData.length.should.equal(expected.length);
+        for (var i = result.chapterData.length - 1; i >= 0; i--) {
+          actual.push(result.chapterData[i].nextid);
         };
         actual.should.have.all.members(expected);
       });
