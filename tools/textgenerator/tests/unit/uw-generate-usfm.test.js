@@ -9,6 +9,12 @@ var sinon = require('sinon');
 var baseInfoJson = {"id":"uw_en_udb","abbr":"UDB","name":"Unlocked Dynamic Bible","nameEnglish":"","lang":"eng","langName":"English","langNameEnglish":"English","dir":"ltr","generator":"uw_usfm"};
 var fs = require('fs');
 var path = require('path');
+/**
+ * Parser for HTML
+ *
+ * @type {Object}
+ */
+var cheerio = require('cheerio');
 
 describe('uwGenerateUsfm', function() {
 
@@ -96,7 +102,7 @@ describe('uwGenerateUsfm', function() {
         };
         actual.should.have.all.members(expected);
       });
-      
+
       it("should return the correct nextid's for the chapter", function() {
         /**
          * These are the id for the chapter following to the current one based only on the files given.
@@ -119,6 +125,19 @@ describe('uwGenerateUsfm', function() {
           actual.push(result.chapterData[i].nextid);
         };
         actual.should.have.all.members(expected);
+      });
+
+      describe("Return Data: chapterData[i].html", function() {
+        
+        it("should set the correct chapter header", function() {
+          var expected = '1';
+          var inputBasePath = path.join(testFilePath, 'three_verses');
+          var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+          result.chapterData.length.should.equal(1);
+          result.chapterData[0].html.should.not.equal('');
+          c('div.c').text().should.be.equal(expected);
+        });
+
       });
 
     });
