@@ -35,11 +35,24 @@ describe('uwGenerateUsfm', function() {
       (result.hasOwnProperty('indexLemmaData')).should.be.equal(true);
       (result.hasOwnProperty('aboutHtml')).should.be.equal(true);
     });
-    
-    it("should return an array for each book with the correct object", function() {
-      var inputBasePath = path.join(testFilePath, 'short_books');
-      console.log(inputBasePath);
-      var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+
+    describe("Return Data: chapterData", function() {
+
+      it("should return an the correct id for each book", function() {
+        /**
+         * These are the codes for James 1-5, 3 John 1 & Jude 1
+         */
+        var expected = ['JM1', 'JM2', 'JM3', 'JM4', 'JM5', 'J31', 'JD1'];
+        var inputBasePath = path.join(testFilePath, 'short_books');
+        var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+        var actual = [];
+        result.chapterData.length.should.equal(expected.length);
+        for (var i = result.chapterData.length - 1; i >= 0; i--) {
+          actual.push(result.chapterData[i].id);
+        };
+        actual.should.have.all.members(expected);
+      });
+
     });
 
     describe("Return Data: indexLemmaData", function() {
