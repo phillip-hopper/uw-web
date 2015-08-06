@@ -55,7 +55,7 @@ describe('uwGenerateUsfm', function() {
         result.chapterData.length.should.equal(expected.length);
         for (var i = result.chapterData.length - 1; i >= 0; i--) {
           actual.push(result.chapterData[i].id);
-        };
+        }
         actual.should.have.all.members(expected);
       });
 
@@ -75,7 +75,7 @@ describe('uwGenerateUsfm', function() {
         result.chapterData.length.should.equal(expected.length);
         for (var i = result.chapterData.length - 1; i >= 0; i--) {
           actual.push(result.chapterData[i].title);
-        };
+        }
         actual.should.have.all.members(expected);
       });
 
@@ -99,7 +99,7 @@ describe('uwGenerateUsfm', function() {
         result.chapterData.length.should.equal(expected.length);
         for (var i = result.chapterData.length - 1; i >= 0; i--) {
           actual.push(result.chapterData[i].previd);
-        };
+        }
         actual.should.have.all.members(expected);
       });
 
@@ -123,7 +123,7 @@ describe('uwGenerateUsfm', function() {
         result.chapterData.length.should.equal(expected.length);
         for (var i = result.chapterData.length - 1; i >= 0; i--) {
           actual.push(result.chapterData[i].nextid);
-        };
+        }
         actual.should.have.all.members(expected);
       });
 

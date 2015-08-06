@@ -142,7 +142,7 @@ describe('uwGrabAvailableTexts', function() {
 
     it("should download all the files for the Bibles", function() {
       downloadStub.called.should.be.equal(true);
-      var download = new downloadStub;
+      var download = new downloadStub();
       download.get.called.should.be.equal(true);
       download.get.firstCall.calledWith('https://api.unfoldingword.org/udb/txt/1/udb-en/01-GEN.usfm').should.be.equal(true);
       download.get.secondCall.calledWith('https://api.unfoldingword.org/ulb/txt/1/ulb-en/01-EXD.usfm').should.be.equal(true);
