@@ -204,10 +204,6 @@ describe('uwGenerateUsfm', function() {
             var inputBasePath = path.join(testFilePath, 'introductions');
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
-            c('div.mt').text().should.equal('The \'mt\' heading');
-            c('div.mt1').text().should.equal('The \'mt1\' heading');
-            c('div.mt2').text().should.equal('The \'mt2\' heading');
-            c('div.mt3').text().should.equal('The \'mt3\' heading');
             c('div.is').text().should.equal('The \'is\' heading');
             c('div.ip').text().should.equal('The \'ip\' heading');
             c('div.ili').text().should.equal('The \'ili\' heading');
