@@ -165,7 +165,7 @@ describe('uwGenerateUsfm', function() {
 
         });
 
-        describe("Chapter Header", function() {
+        describe("Chapter Headers", function() {
           
           it("should set the correct default chapter header", function() {
             var expected = '1';
@@ -191,6 +191,27 @@ describe('uwGenerateUsfm', function() {
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
             c('div.c').text().should.be.equal(expected);
+          });
+
+        });
+
+        describe("Introductions", function() {
+          
+          it("should set the correct usfm introductions (p13)", function() {
+            /**
+             * Not all introductions are implemented
+             */
+            var inputBasePath = path.join(testFilePath, 'introductions');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            c('div.mt').text().should.equal('The \'mt\' heading');
+            c('div.mt1').text().should.equal('The \'mt1\' heading');
+            c('div.mt2').text().should.equal('The \'mt2\' heading');
+            c('div.mt3').text().should.equal('The \'mt3\' heading');
+            c('div.is').text().should.equal('The \'is\' heading');
+            c('div.ip').text().should.equal('The \'ip\' heading');
+            c('div.ili').text().should.equal('The \'ili\' heading');
+            c('div.ili2').text().should.equal('The \'ili2\' heading');
           });
 
         });
