@@ -17,13 +17,31 @@ var jshint = require('gulp-jshint');
  */
 var mocha  = require('gulp-mocha');
 /**
+ * The Mocha reporter using node-notify
+ *
+ * @type {Object}
+ */
+var notifierReporter = require('mocha-notifier-reporter');
+/**
+ * An array of files to watch and run lint on
+ *
+ * @type {Array}
+ */
+var sources = ['./gulpfile.js', './uw-grab-bibles.js', './node_modules/unfolding-word/**/*.js', './tests/**/*.js'];
+/**
+ * An array of file locations for the test files to be run
+ *
+ * @type {Array}
+ */
+var testSources = ['./tests/**/*.js'];
+/**
  * Add a linting task
  *
  * @author Johnathan Pulos <johnathan@missionaldigerati.org>
  */
 gulp.task('lint', function() {
   return gulp
-    .src(['./gulpfile.js', './uw-grab-bibles.js', './node_modules/unfolding-word/**/*.js', './tests/**/*.js'])
+    .src(sources)
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
@@ -34,14 +52,14 @@ gulp.task('lint', function() {
  */
 gulp.task('test', function() {
   return gulp
-    .src('./tests/**/*.js')
-    .pipe(mocha());
+    .src(testSources)
+    .pipe(mocha({reporter: notifierReporter.decorate('spec')}));
 });
 /**
  * Setup the watch task
  */
 gulp.task('watch', ['lint', 'test'], function() {
-  gulp.watch(['./gulpfile.js', './uw-grab-bibles.js', './node_modules/unfolding-word/**/*.js', './tests/**/*.js'], function() {
+  gulp.watch(sources, function() {
     gulp.run('lint', 'test');
   });
 });

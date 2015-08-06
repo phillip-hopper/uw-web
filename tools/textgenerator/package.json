@@ -29,6 +29,7 @@
     "gulp-mocha": "^2.1.3",
     "jshint-stylish": "^2.0.1",
     "mocha": "^2.2.5",
+    "mocha-notifier-reporter": "^0.1.1",
     "mockery": "^1.4.0",
     "path": "^0.11.14",
     "sinon": "^1.15.4"
