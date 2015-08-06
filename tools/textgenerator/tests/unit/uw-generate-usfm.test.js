@@ -164,31 +164,35 @@ describe('uwGenerateUsfm', function() {
           });
 
         });
-        
-        it("should set the correct chapter header", function() {
-          var expected = '1';
-          var inputBasePath = path.join(testFilePath, 'three_verses');
-          var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
-          result.chapterData.length.should.equal(1);
-          result.chapterData[0].html.should.not.equal('');
-          var c = cheerio.load(result.chapterData[0].html);
-          c('div.c').text().should.be.equal(expected);
-        });
 
-        it("should return Psalm 1 header for a Psalms chapter", function() {
-          var expected = 'Psalm 1';
-          var inputBasePath = path.join(testFilePath, 'psalms');
-          var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
-          var c = cheerio.load(result.chapterData[0].html);
-          c('div.c').text().should.be.equal(expected);
-        });
+        describe("Chapter Header", function() {
+          
+          it("should set the correct default chapter header", function() {
+            var expected = '1';
+            var inputBasePath = path.join(testFilePath, 'three_verses');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            result.chapterData.length.should.equal(1);
+            result.chapterData[0].html.should.not.equal('');
+            var c = cheerio.load(result.chapterData[0].html);
+            c('div.c').text().should.be.equal(expected);
+          });
 
-        it("should return Psalm 1 header for a Psalm chapter (no s on the end of the header)", function() {
-          var expected = 'Psalm 1';
-          var inputBasePath = path.join(testFilePath, 'psalm_no_s');
-          var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
-          var c = cheerio.load(result.chapterData[0].html);
-          c('div.c').text().should.be.equal(expected);
+          it("should return Psalm 1 header for a Psalms chapter", function() {
+            var expected = 'Psalm 1';
+            var inputBasePath = path.join(testFilePath, 'psalms');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            c('div.c').text().should.be.equal(expected);
+          });
+
+          it("should return Psalm 1 header for a Psalm chapter (no s on the end of the header)", function() {
+            var expected = 'Psalm 1';
+            var inputBasePath = path.join(testFilePath, 'psalm_no_s');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            c('div.c').text().should.be.equal(expected);
+          });
+
         });
 
       });
