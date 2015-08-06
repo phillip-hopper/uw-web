@@ -198,16 +198,23 @@ describe('uwGenerateUsfm', function() {
         describe("Introductions", function() {
           
           it("should set the correct usfm introductions (p13)", function() {
-            /**
-             * Not all introductions are implemented
-             */
             var inputBasePath = path.join(testFilePath, 'introductions');
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
             c('div.is').text().should.equal('The \'is\' heading');
             c('div.ip').text().should.equal('The \'ip\' heading');
             c('div.ili').text().should.equal('The \'ili\' heading');
+            c('div.ili1').text().should.equal('The \'ili1\' heading');
             c('div.ili2').text().should.equal('The \'ili2\' heading');
+          });
+
+          it("should output Introductions not parsed", function() {
+            var unparsedTags = ['imt', 'imt1', 'ipi', 'im', 'imi', 'ipq', 'imq', 'ipr', 'iq', 'iq1', 'ib', 'iot', 'io', 'io1', 'ior', 'iex', 'iqt', 'imte', 'ie'];
+            var inputBasePath = path.join(testFilePath, 'introductions');
+            uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            for (var i = unparsedTags.length - 1; i >= 0; i--) {
+              (uw.unparsedTags.indexOf(unparsedTags[i]) != -1).should.equal(true);
+            }
           });
 
         });

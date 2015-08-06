@@ -4,12 +4,40 @@
 \toc1 James
 \toc2 James
 \toc3 Jas
+
+\imt The 'imt' heading
+\imt1 The 'imt1' heading
+
 \is The 'is' heading
+\is1 The 'is1' heading
+
 \ip The 'ip' heading
+\ipi The 'ipi' heading
+\im The 'im' heading
+\imi The 'imi' heading
+\ipq The 'ipq' heading
+\imq The 'imq' heading
+\ipr The 'ipr' heading
+
+\iq The 'iq' heading
+\iq1 The 'iq1' heading
+
+\ib The 'ib' heading
+
 \ili The 'ili' heading
+\ili1 The 'ili1' heading
 \ili2 The 'ili2' heading
 
+\iot The 'iot' heading
 
+\io The 'io' heading
+\io1 The 'io1' heading
+
+\ior The 'ior' heading \ior*
+\iex The 'iex' heading
+\iqt The 'iqt' heading \iqt*
+\imte The 'imte' heading
+\ie The 'ie' heading
 
 \s5
 \c 1
