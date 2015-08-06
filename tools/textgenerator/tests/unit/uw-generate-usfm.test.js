@@ -29,6 +29,7 @@ describe('uwGenerateUsfm', function() {
     });
     testFilePath = path.join('tests', 'support', 'usfm_test_files');
     uw = require('unfolding-word/uw-generate-usfm');
+    uw.outputUnparsedTags = false;
   });
 
   describe("Function: generate()", function() {
