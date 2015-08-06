@@ -128,6 +128,42 @@ describe('uwGenerateUsfm', function() {
       });
 
       describe("Return Data: chapterData[i].html", function() {
+
+        describe("Wrapping Div Element", function() {
+          
+          it("should have the correct classes", function() {
+            var inputBasePath = path.join(testFilePath, 'three_verses');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            var wrapper = c('div').first();
+            wrapper.hasClass('section').should.equal(true);
+            wrapper.hasClass('chapter').should.equal(true);
+            wrapper.hasClass('JM').should.equal(true);
+            wrapper.hasClass('JM1').should.equal(true);
+            wrapper.hasClass('uw_en_udb').should.equal(true);
+            wrapper.hasClass('section').should.equal(true);
+          });
+
+          it("should have the correct data tags", function() {
+            var inputBasePath = path.join(testFilePath, 'short_books');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[1].html);
+            var wrapper = c('div').first();
+            wrapper.data('id').should.equal('JM2');
+            wrapper.data('nextid').should.equal('JM3');
+            wrapper.data('previd').should.equal('JM1');
+          });
+
+          it("should have the correct language attributes", function() {
+            var inputBasePath = path.join(testFilePath, 'three_verses');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            var wrapper = c('div').first();
+            wrapper.attr('dir').should.equal('ltr');
+            wrapper.attr('lang').should.equal('en');
+          });
+
+        });
         
         it("should set the correct chapter header", function() {
           var expected = '1';
