@@ -43,6 +43,56 @@ describe('uwGenerateUsfm', function() {
       (result.hasOwnProperty('aboutHtml')).should.be.equal(true);
     });
 
+    describe("Info Argument By Reference", function() {
+      
+      it("should add all required additional info", function() {
+        /**
+         * The dbsCodes for the Bible books
+         */
+        var expectedDivisions = ['JM', 'J3', 'JD'];
+        var expectedDivisionNames = ['James', 'John', 'Jude'];
+        var expectedDivisionAbbreviations = ['Jas', '3Jn', 'Jude'];
+        var expectedSections = ['JM1', 'JM2', 'JM3', 'JM4', 'JM5', 'J31', 'JD1'];
+        var inputBasePath = path.join(testFilePath, 'short_books');
+        var info = baseInfoJson;
+        var result = uw.generate(inputBasePath, info, false, function(){}, function() {});
+        info.type.should.equal('bible');
+        info.divisions.should.deep.equal(expectedDivisions);
+        info.divisionNames.should.deep.equal(expectedDivisionNames);
+        info.divisionAbbreviations.should.deep.equal(expectedDivisionAbbreviations);
+        info.sections.should.deep.equal(expectedSections);
+      });
+
+      it("should use the parsed book info to create an abrreviation if toc3 is not provided", function() {
+        var inputBasePath = path.join(testFilePath, 'info_argument', 'no_toc');
+        var info = baseInfoJson;
+        var result = uw.generate(inputBasePath, info, false, function(){}, function() {});
+        info.divisionAbbreviations[0].should.equal('Jam');
+      });
+
+      it("should use the parsed book info for the division name by default", function() {
+        var inputBasePath = path.join(testFilePath, 'info_argument', 'no_toc');
+        var info = baseInfoJson;
+        var result = uw.generate(inputBasePath, info, false, function(){}, function() {});
+        info.divisionNames[0].should.equal('James');
+      });
+
+      it("should use toc1 tag for the division name if it is available", function() {
+        var inputBasePath = path.join(testFilePath, 'info_argument', 'toc1_only');
+        var info = baseInfoJson;
+        var result = uw.generate(inputBasePath, info, false, function(){}, function() {});
+        info.divisionNames[0].should.equal('The Epistle of James');
+      });
+
+      it("should use toc2 tag over toc1 tag for the division name if it is available", function() {
+        var inputBasePath = path.join(testFilePath, 'info_argument', 'toc2');
+        var info = baseInfoJson;
+        var result = uw.generate(inputBasePath, info, false, function(){}, function() {});
+        info.divisionNames[0].should.equal('James');
+      });
+
+    });
+
     describe("Return Data: chapterData", function() {
 
       it("should return an the correct id for each book", function() {
