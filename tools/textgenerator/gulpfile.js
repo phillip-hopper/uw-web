@@ -23,6 +23,18 @@ var mocha  = require('gulp-mocha');
  */
 var notifierReporter = require('mocha-notifier-reporter');
 /**
+ * The plumber for allowing errors to pass through
+ *
+ * @type {Object}
+ */
+var plumber = require('gulp-plumber');
+/**
+ * Notify the user
+ *
+ * @type {Object}
+ */
+var notify = require('gulp-notify');
+/**
  * An array of files to watch and run lint on
  *
  * @type {Array}
@@ -42,8 +54,11 @@ var testSources = ['./tests/**/*.js'];
 gulp.task('lint', function() {
   return gulp
     .src(sources)
+    .pipe(plumber())
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'))
+    .on('error', notify.onError({message: 'Linting Failed!'}));
 });
 /**
  * Add a task for running the tests
