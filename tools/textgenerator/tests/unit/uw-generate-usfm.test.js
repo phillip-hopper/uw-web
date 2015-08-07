@@ -377,6 +377,31 @@ describe('uwGenerateUsfm', function() {
 
       });
 
+      describe("Text Blocks", function() {
+        
+        it("should be appropriately formatted when text follows the tag", function() {
+          var expected = 'Altogether, these clans descended from Kohath were allotted thirteen towns.';
+          var inputBasePath = path.join(testFilePath, 'text_blocks');
+          var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+          var c = cheerio.load(result.chapterData[0].html);
+          var indented = c('div.pi').slice(1);
+          indented.find('span.v').first().hasClass('R11_60').should.equal(true);
+          indented.text().stripNewLines().should.equal(expected);
+        });
+
+        it("should be appropriately format when no text follows the tag", function() {
+          var inputBasePath = path.join(testFilePath, 'text_blocks');
+          var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+          var c = cheerio.load(result.chapterData[0].html);
+          var indented = c('div.pi').slice(0);
+          indented.children('span.v').slice(0).hasClass('R11_57').should.equal(true);
+          indented.children('span.v').slice(1).hasClass('R11_58').should.equal(true);
+          indented.children('span.v').slice(2).hasClass('R11_59').should.equal(true);
+          indented.children('span.v').slice(3).hasClass('R11_60').should.equal(true);
+        });
+
+      });
+
       describe("Return Data: indexLemmaData", function() {
         
         it("should return an empty object by default", function() {
