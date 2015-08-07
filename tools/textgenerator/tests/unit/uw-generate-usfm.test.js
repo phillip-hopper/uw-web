@@ -10,6 +10,16 @@ var baseInfoJson = {"id":"uw_en_udb","abbr":"UDB","name":"Unlocked Dynamic Bible
 var fs = require('fs');
 var path = require('path');
 /**
+ * Extend the String class to have a strip newlines method
+ *
+ * @return {String} The stripped string
+ *
+ * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+ */
+String.prototype.stripNewLines = function() {
+  return this.replace(/(\r\n|\n|\r)/gm, '');
+};
+/**
  * Parser for HTML
  *
  * @type {Object}
@@ -336,9 +346,33 @@ describe('uwGenerateUsfm', function() {
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
             var footnote = c('span.RM1_24');
-            footnote.html().replace(/(\r\n|\n|\r)/gm, '').should.equal(expected);
+            footnote.html().stripNewLines().should.equal(expected);
           });
 
+        });
+
+        describe("Paragraphs", function() {
+          
+          it("should be appropriately formatted when text follows the tag", function() {
+            var expected = 'God, whose name is Yahweh, made the heavens and the earth.';
+            var inputBasePath = path.join(testFilePath, 'paragraphs');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            var paragraph = c('div.p').first();
+            paragraph.text().stripNewLines().should.equal(expected);
+          });
+
+          it("should be appropriately format when no text follows the tag", function() {
+            var inputBasePath = path.join(testFilePath, 'paragraphs');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            var secondParagraph = c('div.p').slice(1);
+            secondParagraph.children('span.v').length.should.equal(4);
+            secondParagraph.children('span.v').slice(0).hasClass('GN1_5').should.equal(true);
+            secondParagraph.children('span.v').slice(1).hasClass('GN1_6').should.equal(true);
+            secondParagraph.children('span.v').slice(2).hasClass('GN1_7').should.equal(true);
+            secondParagraph.children('span.v').slice(3).hasClass('GN1_8').should.equal(true);
+          });
         });
 
       });
