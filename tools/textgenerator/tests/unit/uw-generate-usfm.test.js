@@ -216,36 +216,6 @@ describe('uwGenerateUsfm', function() {
 
         });
 
-        describe("Chapter Headers", function() {
-          
-          it("should set the correct default chapter header", function() {
-            var expected = '1';
-            var inputBasePath = path.join(testFilePath, 'three_verses');
-            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
-            result.chapterData.length.should.equal(1);
-            result.chapterData[0].html.should.not.equal('');
-            var c = cheerio.load(result.chapterData[0].html);
-            c('div.c').text().should.be.equal(expected);
-          });
-
-          it("should return Psalm 1 header for a Psalms chapter", function() {
-            var expected = 'Psalm 1';
-            var inputBasePath = path.join(testFilePath, 'psalms');
-            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
-            var c = cheerio.load(result.chapterData[0].html);
-            c('div.c').text().should.be.equal(expected);
-          });
-
-          it("should return Psalm 1 header for a Psalm chapter (no s on the end of the header)", function() {
-            var expected = 'Psalm 1';
-            var inputBasePath = path.join(testFilePath, 'psalm_no_s');
-            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
-            var c = cheerio.load(result.chapterData[0].html);
-            c('div.c').text().should.be.equal(expected);
-          });
-
-        });
-
         describe("Introductions", function() {
           
           it("should set the correct usfm introductions (p13)", function() {
@@ -259,7 +229,7 @@ describe('uwGenerateUsfm', function() {
             c('div.ili2').text().should.equal('The \'ili2\' heading');
           });
 
-          it("should output Introductions not parsed", function() {
+          it("should output introduction tags that are not currently supported", function() {
             var unparsedTags = ['imt', 'imt1', 'ipi', 'im', 'imi', 'ipq', 'imq', 'ipr', 'iq', 'iq1', 'ib', 'iot', 'io', 'io1', 'ior', 'iex', 'iqt', 'imte', 'ie'];
             var inputBasePath = path.join(testFilePath, 'introductions');
             uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
@@ -270,19 +240,75 @@ describe('uwGenerateUsfm', function() {
 
         });
 
+        describe("Titles, Headings & Labels", function() {
+        
+            it("should set the correct default chapter header", function() {
+              var expected = '1';
+              var inputBasePath = path.join(testFilePath, 'three_verses');
+              var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+              result.chapterData.length.should.equal(1);
+              result.chapterData[0].html.should.not.equal('');
+              var c = cheerio.load(result.chapterData[0].html);
+              c('div.c').text().should.be.equal(expected);
+            });
+
+            it("should return Psalm 1 header for a Psalms chapter", function() {
+              var expected = 'Psalm 1';
+              var inputBasePath = path.join(testFilePath, 'psalms');
+              var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+              var c = cheerio.load(result.chapterData[0].html);
+              c('div.c').text().should.be.equal(expected);
+            });
+
+            it("should return Psalm 1 header for a Psalm chapter (no s on the end of the header)", function() {
+              var expected = 'Psalm 1';
+              var inputBasePath = path.join(testFilePath, 'psalm_no_s');
+              var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+              var c = cheerio.load(result.chapterData[0].html);
+              c('div.c').text().should.be.equal(expected);
+            });
+
+            it("should set the correct usfm titles, headings, and labels (p 21)", function() {
+              var inputBasePath = path.join(testFilePath, 'titles_headings_labels');
+              var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+              var c = cheerio.load(result.chapterData[0].html);
+              c('div.mt').text().should.equal('The \'mt\' title');
+              c('div.mt1').text().should.equal('The \'mt1\' title');
+              c('div.mt2').text().should.equal('The \'mt2\' title');
+              c('div.mt3').text().should.equal('The \'mt3\' title');
+              c('div.ms').text().should.equal('The \'ms\' title');
+              c('div.d').text().should.equal('The \'d\' title');
+              c('div.sp').text().should.equal('The \'sp\' title');
+              c('div.sr').text().should.equal('The \'sr\' title');
+              c('div.s1').text().should.equal('The \'s1\' title');
+              c('div.s2').text().should.equal('The \'s2\' title');
+              c('div.r').text().should.equal('The \'r\' title');
+            });
+
+            it("should output title, heading, and label tags that are not currently supported", function() {
+              var unparsedTags = ['mte', 'mte1', 'rq'];
+              var inputBasePath = path.join(testFilePath, 'titles_headings_labels');
+              uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+              for (var i = unparsedTags.length - 1; i >= 0; i--) {
+                (uw.unparsedTags.indexOf(unparsedTags[i]) != -1).should.equal(true);
+              }
+            });
+
+          });
+
+        });
+
       });
 
-    });
+      describe("Return Data: indexLemmaData", function() {
+        
+        it("should return an empty object by default", function() {
+          var inputBasePath = path.join(testFilePath, 'short_books');
+          var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+          result.indexLemmaData.should.deep.equal({});
+        });
 
-    describe("Return Data: indexLemmaData", function() {
-      
-      it("should return an empty object by default", function() {
-        var inputBasePath = path.join(testFilePath, 'short_books');
-        var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
-        result.indexLemmaData.should.deep.equal({});
       });
-
-    });
 
     describe("Return Data: aboutHtml", function() {
 
