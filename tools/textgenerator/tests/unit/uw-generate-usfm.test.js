@@ -417,6 +417,17 @@ describe('uwGenerateUsfm', function() {
 
         });
 
+        describe("Line Breaks", function() {
+          
+          it("should add a div for a line break", function() {
+            var inputBasePath = path.join(testFilePath, 'text_blocks');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            c('div.b').length.should.equal(1);
+          });
+
+        });
+
       });
 
       describe("Return Data: indexLemmaData", function() {
