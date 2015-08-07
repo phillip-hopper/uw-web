@@ -428,6 +428,22 @@ describe('uwGenerateUsfm', function() {
 
         });
 
+        describe("Quotes", function() {
+          
+          it("should wrap it with the appropriate element", function() {
+            var expectedQ1 = 'He is my God, and I will praise him.';
+            var expectedQ2 = 'He is the one who has saved me.';
+            var inputBasePath = path.join(testFilePath, 'text_blocks');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            c('div.q1').length.should.equal(2);
+            c('div.q2').length.should.equal(1);
+            c('div.q1').slice(1).text().stripNewLines().should.equal(expectedQ1);
+            c('div.q2').first().text().stripNewLines().should.equal(expectedQ2);
+          });
+
+        });
+
       });
 
       describe("Return Data: indexLemmaData", function() {
