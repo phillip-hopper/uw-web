@@ -298,6 +298,34 @@ describe('uwGenerateUsfm', function() {
 
         });
 
+        describe("Verses", function() {
+          
+          it("should add the verse number and wrap it wuth appropriate classes", function() {
+            var inputBasePath = path.join(testFilePath, 'three_verses');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            var firstSpan = c('span').first();
+            firstSpan.hasClass('v-num').should.equal(true);
+            firstSpan.hasClass('v-1').should.equal(true);
+            firstSpan.text().trim().should.equal('1');
+          });
+
+          it("should wrap the verse in the appropriate classes", function() {
+            var expected = 'I, James, serve God and am bound to God through the Lord Jesus Christ. ' + 
+              'I am writing this letter to the twelve Jewish tribes who trust in Christ and who are ' +
+              'scattered throughout the world. I greet you all.';
+            var inputBasePath = path.join(testFilePath, 'three_verses');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            var verseSpan = c('span').first().next();
+            verseSpan.hasClass('v').should.equal(true);
+            verseSpan.hasClass('JM1_1').should.equal(true);
+            verseSpan.data('id').should.equal('JM1_1');
+            verseSpan.text().should.equal(expected);
+          });
+
+        });
+
       });
 
       describe("Return Data: indexLemmaData", function() {
