@@ -326,6 +326,21 @@ describe('uwGenerateUsfm', function() {
 
         });
 
+        describe("Notes", function() {
+          
+          it("should format footnotes correctly", function() {
+            var expected = '<span class="note" id="note-1"><a class="key" href="#footnote-1">1</a>' +
+              '<span class="text">Some ancient authorities insert here v. 24 <em>May the grace of ' +
+              'our Lord Jesus Christ be with you all. Amen.</em> and omit the like words in v 20.</span></span>';
+            var inputBasePath = path.join(testFilePath, 'with_notes');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            var footnote = c('span.RM1_24');
+            footnote.html().replace(/(\r\n|\n|\r)/gm, '').should.equal(expected);
+          });
+
+        });
+
       });
 
       describe("Return Data: indexLemmaData", function() {
