@@ -105,7 +105,7 @@ describe('uwGenerateUsfm', function() {
 
     describe("Return Data: chapterData", function() {
 
-      it("should return an the correct id for each book", function() {
+      it("should return the correct id for each book", function() {
         /**
          * These are the codes for James 1-5, 3 John 1 & Jude 1
          */
