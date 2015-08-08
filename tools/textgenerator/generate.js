@@ -60,14 +60,7 @@ function convertFolder(inputPath) {
 
 
 		try {
-			if (generatorName == 'uw_usfm') {
-				/**
-				 * We will use a custom generator
-				 */
-				generator = require('unfolding-word/uw-generate-usfm');
-			} else {
-				generator = require('generate_' + generatorName);
-			}
+			generator = require(generatorName);
 		} catch (ex) {
 			console.log("Can't find: " + generatorName);
 			return;
