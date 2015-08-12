@@ -46,8 +46,18 @@ var sources = ['./gulpfile.js', './uw-grab-bibles.js', './node_modules/unfolding
  * @type {Array}
  */
 var testSources = ['./tests/**/*.js'];
-
-function handleError(err) {
+/**
+ * Handle Mocha Errors
+ *
+ * @param  {Object} err The error object
+ *
+ * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+ */
+function handleMochaError(err) {
+  console.log(err.toString());
+  this.emit('end');
+}
+function handleLintError(err) {
   console.log(err.toString());
   this.emit('end');
 }
@@ -63,7 +73,8 @@ gulp.task('lint', function() {
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'))
-    .on('error', notify.onError({message: 'Linting Failed!'}));
+    .on('error', notify.onError({message: 'Linting Failed!'}))
+    .on('error', handleLintError);
 });
 /**
  * Add a task for running the tests
@@ -74,7 +85,7 @@ gulp.task('test', function() {
   return gulp
     .src(testSources)
     .pipe(mocha({reporter: notifierReporter.decorate('spec')}))
-    .on('error', handleError);
+    .on('error', handleMochaError);
 });
 /**
  * Setup the watch task
