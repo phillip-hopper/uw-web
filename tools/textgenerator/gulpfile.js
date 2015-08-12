@@ -46,6 +46,11 @@ var sources = ['./gulpfile.js', './uw-grab-bibles.js', './node_modules/unfolding
  * @type {Array}
  */
 var testSources = ['./tests/**/*.js'];
+
+function handleError(err) {
+  console.log(err.toString());
+  this.emit('end');
+}
 /**
  * Add a linting task
  *
@@ -68,7 +73,8 @@ gulp.task('lint', function() {
 gulp.task('test', function() {
   return gulp
     .src(testSources)
-    .pipe(mocha({reporter: notifierReporter.decorate('spec')}));
+    .pipe(mocha({reporter: notifierReporter.decorate('spec')}))
+    .on('error', handleError);
 });
 /**
  * Setup the watch task
