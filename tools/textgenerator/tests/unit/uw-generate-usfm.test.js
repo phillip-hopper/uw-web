@@ -341,7 +341,7 @@ describe('uwGenerateUsfm', function() {
           it("should format footnotes correctly", function() {
             var expected = '<span class="note" id="note-1"><a class="key" href="#footnote-1">1</a>' +
               '<span class="text">Some ancient authorities insert here v. 24 <em>May the grace of ' +
-              'our Lord Jesus Christ be with you all. Amen.</em> and omit the like words in v 20.</span></span>';
+              'our Lord Jesus Christ be with you all. Amen. </em>and omit the like words in v 20.</span></span>';
             var inputBasePath = path.join(testFilePath, 'with_notes');
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
@@ -362,16 +362,16 @@ describe('uwGenerateUsfm', function() {
             paragraph.text().stripNewLines().should.equal(expected);
           });
 
-          it("should be appropriately format when no text follows the tag", function() {
+          it("should be appropriately formatted when no text follows the tag", function() {
             var inputBasePath = path.join(testFilePath, 'paragraphs');
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
-            var secondParagraph = c('div.p').slice(1);
+            var secondParagraph = c('div.p').eq(1);
             secondParagraph.children('span.v').length.should.equal(4);
-            secondParagraph.children('span.v').slice(0).hasClass('GN1_5').should.equal(true);
-            secondParagraph.children('span.v').slice(1).hasClass('GN1_6').should.equal(true);
-            secondParagraph.children('span.v').slice(2).hasClass('GN1_7').should.equal(true);
-            secondParagraph.children('span.v').slice(3).hasClass('GN1_8').should.equal(true);
+            secondParagraph.children('span.v').eq(0).hasClass('GN1_5').should.equal(true);
+            secondParagraph.children('span.v').eq(1).hasClass('GN1_6').should.equal(true);
+            secondParagraph.children('span.v').eq(2).hasClass('GN1_7').should.equal(true);
+            secondParagraph.children('span.v').eq(3).hasClass('GN1_8').should.equal(true);
           });
         });
 
@@ -391,15 +391,15 @@ describe('uwGenerateUsfm', function() {
             indented.text().stripNewLines().should.equal(expected);
           });
 
-          it("should be appropriately format when no text follows the tag", function() {
+          it("should be appropriately formatted when no text follows the tag", function() {
             var inputBasePath = path.join(testFilePath, 'text_blocks');
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
-            var indented = c('div.pi').slice(0);
-            indented.children('span.v').slice(0).hasClass('R11_57').should.equal(true);
-            indented.children('span.v').slice(1).hasClass('R11_58').should.equal(true);
-            indented.children('span.v').slice(2).hasClass('R11_59').should.equal(true);
-            indented.children('span.v').slice(3).hasClass('R11_60').should.equal(true);
+            var indented = c('div.pi').eq(0);
+            indented.children('span.v').eq(0).hasClass('R11_57').should.equal(true);
+            indented.children('span.v').eq(1).hasClass('R11_58').should.equal(true);
+            indented.children('span.v').eq(2).hasClass('R11_59').should.equal(true);
+            indented.children('span.v').eq(3).hasClass('R11_60').should.equal(true);
           });
 
         });
@@ -440,6 +440,27 @@ describe('uwGenerateUsfm', function() {
             c('div.q2').length.should.equal(1);
             c('div.q1').slice(1).text().stripNewLines().should.equal(expectedQ1);
             c('div.q2').first().text().stripNewLines().should.equal(expectedQ2);
+          });
+
+          it("should wrap quotes with paragraphs", function() {
+            var inputBasePath = path.join(testFilePath, 'quotes_in_paragraphs');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            c('div.p').length.should.equal(1);
+            c('div.q').length.should.equal(3);
+            /**
+             * Make sure verse 46 is in the right place
+             */
+            c('div.p').first().find('span.v-num').first().hasClass('v-46').should.equal(true);
+            c('div.p').first().find('span.v').first().hasClass('LK1_46').should.equal(true);
+            /**
+             * Make sure verse 47 is in the right place
+             */
+            c('div.q').eq(0).text().stripNewLines().should.equal('"Oh, how I praise the Lord! ');
+            c('div.q').eq(1).find('span').length.should.equal(2);
+            c('div.q').eq(1).find('span.v-num').first().hasClass('v-47').should.equal(true);
+            c('div.q').eq(1).find('span.v').first().hasClass('LK1_47').should.equal(true);
+            c('div.q').eq(2).text().stripNewLines().should.equal('who is the one who saves me."');
           });
 
         });
