@@ -3,9 +3,8 @@ sofia.config = $.extend(sofia.config, {
 	enableFontFamilySelector: true,
 
 	fontFamilyStacks: {
-		'Cambria': 'Cambria, Georgia, serif',
+		'noto': 'Noto Sans', 'Cambria': 'Cambria, Georgia, serif',
 		'Palatino': 'Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif',
-		//'Georgia': 'Georgia, Times, "Times New Roman", serif',
 		'Libertine': 'Libertine', // Serif family but does not need fallback because we're loding it as a webfont if not present on system
 		'Helvetica': '"Helvetica Neue", Helvetica, Arial, sans-serif',
 		'Trebuchet': '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif'
@@ -13,19 +12,15 @@ sofia.config = $.extend(sofia.config, {
 
 });
 
-
-
 var FontFamilySettings = function(node) {
-
 	var
 		body = $('#config-type .config-body'),
-		fontFamilyStackNames = Object.keys(sofia.config.fontFamilyStacks), // ['Cambria', 'Helvetica', 'Baskerville', 'Times', 'Libertine'],
+		fontFamilyStackNames = Object.keys(sofia.config.fontFamilyStacks),
 		defaultFontSetting = {"fontName": fontFamilyStackNames[0]},
 		fontFamilyKey = 'config-font-family',
 		fontFamilySetting = AppSettings.getValue(fontFamilyKey, defaultFontSetting),
 		fontSettingHtml = '',
 		fontFamilyStyle = '';
-
 	//
 	for(var i=0, il=fontFamilyStackNames.length; i<il; i++) {
 		var fontStackName = fontFamilyStackNames[i],
@@ -58,7 +53,7 @@ var FontFamilySettings = function(node) {
 
 
 	function setFontFamily(newFontStackName) {
-
+		console.log('font', newFontStackName);
 		var body = $('body');
 
 		PlaceKeeper.storePlace();
@@ -87,8 +82,7 @@ var FontFamilySettings = function(node) {
 	body.on('change', 'input[name=config-font-family]', function() {
 		var radio = $(this),
 			newFontFamilyValue = radio.val();
-
-		setFontFamily(newFontFamilyValue);
+			setFontFamily(newFontFamilyValue);
 	});
 
 	// set default
