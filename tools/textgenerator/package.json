@@ -12,6 +12,7 @@
     "jsdom": "3.1.2",
     "minimist": "*",
     "mkdirp": "*",
+    "moment": "^2.10.6",
     "natural": "^0.2.1",
     "path": "^0.11.14",
     "progress": "*",
