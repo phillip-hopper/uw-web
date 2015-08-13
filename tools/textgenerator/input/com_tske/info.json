@@ -5,7 +5,7 @@
  "id": "comm_eng_tske",
  "lang": "eng",
  "langNameEnglish": "English",
- "generator": "tske",
+ "generator": "generate_tske",
  "filename": "tske.txt",
  "type":"commentary",
  "stylesheet":"style.css",

@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "stable"
 install: cd tools/textgenerator && npm install
-script: npm test
+script: gulp test

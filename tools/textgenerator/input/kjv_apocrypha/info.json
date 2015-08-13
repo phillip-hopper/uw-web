@@ -5,7 +5,7 @@
  "lang": "eng",
  "langNameEnglish": "English",
  "name": "King James Version",
- "generator": "unbound",
+ "generator": "generate_unbound",
  "filename": "kjv_apocrypha_utf8_mapped_to_NRSVA.txt",
  "dir": "ltr",
   "fcbh_drama_nt":"ENGESVN2DA",

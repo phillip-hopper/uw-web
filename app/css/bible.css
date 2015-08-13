@@ -263,6 +263,7 @@ div.is1 {
 .qs {
 	text-align: right;
 	font-style: italic;
+	display: block;
 }
 
 .c + .p,

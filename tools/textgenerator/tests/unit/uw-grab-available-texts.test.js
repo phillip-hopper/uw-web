@@ -69,7 +69,7 @@ describe('uwGrabAvailableTexts', function() {
             langName:         'English',
             langNameEnglish:  'English',
             dir:              'ltr',
-            generator:        'usfm'
+            generator:        'unfolding-word/uw-generate-usfm'
           },
           files: [
             'https://api.unfoldingword.org/udb/txt/1/udb-en/01-GEN.usfm'
@@ -85,7 +85,7 @@ describe('uwGrabAvailableTexts', function() {
             langName:         'English',
             langNameEnglish:  'English',
             dir:              'ltr',
-            generator:        'usfm'
+            generator:        'unfolding-word/uw-generate-usfm'
           },
           files: [
             'https://api.unfoldingword.org/ulb/txt/1/ulb-en/01-EXD.usfm'
@@ -133,8 +133,8 @@ describe('uwGrabAvailableTexts', function() {
     });
 
     it("should create the info.json files", function() {
-      var firstInfoJson = JSON.stringify({id:'uw_en_udb',abbr:'UDB',name:'Unlocked Dynamic Bible',nameEnglish:'',lang:'eng',langName:'English',langNameEnglish:'English',dir:'ltr',generator:'usfm'});
-      var secondInfoJson = JSON.stringify({id:'uw_en_ulb',abbr:'ULB',name:'Unlocked Literal Bible',nameEnglish:'',lang:'eng',langName:'English',langNameEnglish:'English',dir:'ltr',generator:'usfm'});
+      var firstInfoJson = JSON.stringify({id:'uw_en_udb',abbr:'UDB',name:'Unlocked Dynamic Bible',nameEnglish:'',lang:'eng',langName:'English',langNameEnglish:'English',dir:'ltr',generator:'unfolding-word/uw-generate-usfm'});
+      var secondInfoJson = JSON.stringify({id:'uw_en_ulb',abbr:'ULB',name:'Unlocked Literal Bible',nameEnglish:'',lang:'eng',langName:'English',langNameEnglish:'English',dir:'ltr',generator:'unfolding-word/uw-generate-usfm'});
       fileSystemStub.writeFile.called.should.be.equal(true);
       fileSystemStub.writeFile.firstCall.calledWith('tests/support/input/uw_en_udb/info.json', firstInfoJson).should.be.equal(true);
       fileSystemStub.writeFile.secondCall.calledWith('tests/support/input/uw_en_ulb/info.json', secondInfoJson).should.be.equal(true);
@@ -142,7 +142,7 @@ describe('uwGrabAvailableTexts', function() {
 
     it("should download all the files for the Bibles", function() {
       downloadStub.called.should.be.equal(true);
-      var download = new downloadStub;
+      var download = new downloadStub();
       download.get.called.should.be.equal(true);
       download.get.firstCall.calledWith('https://api.unfoldingword.org/udb/txt/1/udb-en/01-GEN.usfm').should.be.equal(true);
       download.get.secondCall.calledWith('https://api.unfoldingword.org/ulb/txt/1/ulb-en/01-EXD.usfm').should.be.equal(true);
