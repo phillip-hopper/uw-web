@@ -30,6 +30,7 @@ describe('uwGenerateUsfm', function() {
 
   var uw;
   var testFilePath;
+  var indexerStub;
 
   before(function() {
     mockery.enable({
@@ -38,6 +39,10 @@ describe('uwGenerateUsfm', function() {
       useCleanCache: true
     });
     testFilePath = path.join('tests', 'support', 'usfm_test_files');
+    indexerStub = {
+      indexVerse: sinon.stub()
+    };
+    mockery.registerMock('verse_indexer', indexerStub);
     uw = require('unfolding-word/uw-generate-usfm');
     uw.outputUnparsedTags = false;
   });
@@ -471,7 +476,6 @@ describe('uwGenerateUsfm', function() {
             var inputBasePath = path.join(testFilePath, 'list_items');
             var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
             var c = cheerio.load(result.chapterData[0].html);
-            console.log(result.chapterData[0].html);
             /**
              * Make sure verse 1 is in the right place
              */
@@ -518,6 +522,23 @@ describe('uwGenerateUsfm', function() {
 
         var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
         expected.should.be.equal(result.aboutHtml);
+      });
+
+    });
+
+    describe("Indexing Verse", function() {
+      
+      it("should index the verse", function() {
+        var verse1 = 'I, James, serve God and am bound to God through the Lord Jesus Christ. I am writing this letter to the twelve Jewish tribes who trust in Christ and who are scattered throughout the world. I greet you all.';
+        var verse2 = 'My fellow believers, consider it something to greatly rejoice over when you experience various kinds of hardships.';
+        var verse3 = 'Understand that as you trust God in hardships, they help you to endure even more hardships.';
+        var inputBasePath = path.join(testFilePath, 'three_verses');
+        var result = uw.generate(inputBasePath, baseInfoJson, true, function(){}, function() {});
+        indexerStub.indexVerse.called.should.be.equal(true);
+        indexerStub.indexVerse.firstCall.calledWith('JM1_1', verse1).should.be.equal(true);
+        indexerStub.indexVerse.secondCall.calledWith('JM1_2', verse2).should.be.equal(true);
+        indexerStub.indexVerse.thirdCall.calledWith('JM1_3', verse3).should.be.equal(true);
+        indexerStub.indexVerse.calledThrice.should.be.equal(true);
       });
 
     });
