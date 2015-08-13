@@ -63,5 +63,18 @@ describe("Parser: USFM", function() {
       data[0].should.deep.equal(expected);
     });
 
+    it("should handle verse ranges", function() {
+      var line = '\\v 1-2 Joseph chose five of his brothers to go with him to talk to the king...';
+      var expected = {
+        key:    'v',
+        number: '1-2',
+        text:   'Joseph chose five of his brothers to go with him to talk to the king...',
+        order:  1
+      };
+      var data = usfm.parseLine(line);
+      data.length.should.equal(1);
+      data[0].should.deep.equal(expected);
+    });
+
   });
 });
