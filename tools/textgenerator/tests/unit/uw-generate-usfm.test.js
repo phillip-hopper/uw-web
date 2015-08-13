@@ -465,6 +465,30 @@ describe('uwGenerateUsfm', function() {
 
         });
 
+        describe("List Items", function() {
+          
+          it("should wrap list items with the appropriate elements", function() {
+            var inputBasePath = path.join(testFilePath, 'list_items');
+            var result = uw.generate(inputBasePath, baseInfoJson, false, function(){}, function() {});
+            var c = cheerio.load(result.chapterData[0].html);
+            console.log(result.chapterData[0].html);
+            /**
+             * Make sure verse 1 is in the right place
+             */
+            c('div.p').first().find('span.v-num').first().hasClass('v-1').should.equal(true);
+            c('div.p').first().find('span.v').first().hasClass('GN1_1').should.equal(true);
+            /**
+             * Check the list items
+             */
+            c('div.p').first().find('div.li').length.should.equal(2);
+            c('div.li').first().text().should.equal('the two sons of Perez: Hezron and Hamul;');
+            c('div.li').eq(1).find('span.v-num').first().hasClass('v-2').should.equal(true);
+            c('div.li').eq(1).find('span.v').first().hasClass('GN1_2').should.equal(true);
+            c('div.li').eq(1).find('span.v').first().text().should.equal('Issachar and his sons Tola, Puah, Jashub, and Shimron;');
+          });
+
+        });
+
       });
 
       describe("Return Data: indexLemmaData", function() {
