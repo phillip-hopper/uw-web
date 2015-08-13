@@ -1,3 +1,86 @@
 /**
  * Store any custom CSS in this file
  */
+input {
+    font-family: 'Noto Sans', sans-serif;
+}
+.windows-header {
+    background-color: #000000;
+}
+#main-menu-button {
+    background-image: url(../../css/images/menu-white.svg);
+}
+#main-back-button {
+    background-image: url(../../css/images/arrow-left-white.svg);
+}
+#main-forward-button {
+    background-image: url(../../css/images/arrow-right-white.svg);
+}
+#main-back-button.inactive, #main-forward-button.inactive {
+    opacity: 0.8;
+}
+#main-fullscreen-button {
+    background-image: url(../../css/images/fullscreen-white.svg);
+}
+#main-search-button {
+    background: #a1ca00 url(../../css/images/search-button.svg) center center no-repeat;
+}
+.image-config, .search-options-button {
+    background-image: url(../../css/images/gear-black.svg) !important;
+}
+.about-logo {
+    background-image: url(../../css/images/about-black.svg) !important;
+}
+.window .window-header {
+    border-bottom: solid 1px #a1ca00;
+}
+#main-menu-button.active,
+.main-menu-item:hover {
+    background-color: #a1ca00;
+}
+/**
+ * Book Selector
+ */
+.info-button {
+    background-image: url(../../css/images/info-black.svg);
+}
+.app-input, .app-list, .app-input:hover, .app-list:hover {
+    color: #000000;
+    border: solid 1px #000000;
+}
+.text-navigator .text-navigator-header,
+.text-chooser .text-chooser-header,
+.main-menu-heading,
+.text-chooser-selector span.selected,
+.search-division-chooser .search-division-header {
+    color: #a1ca00;
+    background-color: #000000;
+}
+.text-chooser-selector {
+    font-family: 'Noto Sans', sans-serif;
+}
+.text-chooser-selector span {
+    border: solid 1px #a1ca00;
+}
+.text-chooser .text-chooser-filter-text {
+    border: solid 1px #a1ca00;
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Noto Sans', sans-serif;
+}
+.text-chooser-row.selected {
+    background: #44ace8;
+    color: #fff;
+}
+/**
+ * Search
+ */
+.window .window-header .header-button {
+    color: #a1ca00;
+}
+.search-progress-bar-inner {
+    background-color: #a1ca00;
+}
+.search-progress-bar-label {
+    color: #000000;
+}
