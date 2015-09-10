@@ -1,16 +1,16 @@
-# Unfolding Word Web Bibles #
+# unfoldingWord Web Bibles #
 [![Build Status](https://travis-ci.org/unfoldingWord-dev/uw-web.svg?branch=develop)](https://travis-ci.org/unfoldingWord-dev/uw-web)
 
-A bible software that runs the [Unfolding Word](http://unfoldingword.org) Bibles in the browser. See changelog.md for recent updates.  This code is an update of the [Browser Bible App](https://github.com/digitalbiblesociety/browserbible).
+A bible software that runs the [unfoldingWord](http://unfoldingword.org) Bibles in the browser. See changelog.md for recent updates.  This code is an update of the [Browser Bible App](https://github.com/digitalbiblesociety/browserbible).
 
-### Grabbing the Unfolding Word Bibles ##
+### Grabbing the unfoldingWord Bibles ##
 
 1. Make sure you have [Node.js](http://nodejs.org/download/) installed.
 2. Navigate to the `/tools/textgenerator` folder.
 3. Run `npm install` to install dependencies.
 4. Run `node uw-grab-bibles.js` (This will pull down all the latest versions of UW Bibles)
 
-### Building The Unfolding Word Bibles ###
+### Building The unfoldingWord Bibles ###
 
 1. Delete all the files (except the README.md) in the `app/content/texts` directory.
 2. Navigate to the `/tools/textgenerator` folder.
