@@ -15,7 +15,13 @@ var fs = require('fs'),
 	verseIndexer = require('verse_indexer'),
 	ProgressBar = require('progress'),
 	argv = require('minimist')(process.argv.slice(2));
-
+/**
+ * Nodejs package del for finding and deleting directories
+ *
+ * @type {Object}
+ * @access private
+ */
+var del = require('del');
 
 //console.log( bibleData.getBookInfoByUnboundCode('40N') );
 //return;
@@ -258,7 +264,6 @@ function copyFile(source, target, cb) {
 function convertFolders() {
 	var files = fs.readdirSync(baseInput),
 		startDate = new Date();
-
 	// DO ALL
 	for (var f in files) {
 		var folder = files[f],
@@ -272,6 +277,38 @@ function convertFolders() {
 	console.log('TOTAL: ' + MillisecondsToDuration(endDate - startDate));
 
 	process.exit();
+}
+
+/**
+ * Remove all the current directories in the baseOutput path
+ *
+ * @return {void}
+ *
+ * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+ */
+function cleanBaseOutputPath() {
+	console.log("Removing the existing directories.")
+	var baseAbsolutePath = path.resolve(baseOutput);
+	var directories = getDirectories(baseAbsolutePath);
+	var deleteDirectories = [];
+	for (var i = 0; i < directories.length; i++) {
+		deleteDirectories.push(path.join(baseAbsolutePath, directories[i]));
+	};
+	del.sync(deleteDirectories, {force: true });
+};
+/**
+ * Get all the directories in the given path
+ *
+ * @param  {string} srcpath The path to search
+ *
+ * @return {array}         An array of directories in that path
+ *
+ * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+ */
+function getDirectories(srcpath) {
+  return fs.readdirSync(srcpath).filter(function(file) {
+    return fs.statSync(path.join(srcpath, file)).isDirectory();
+  });
 }
 
 function deleteAllFiles(pathToDelete) {
@@ -336,6 +373,7 @@ if (argv['i']) {
 
 // DO ALL
 if (argv['a']) {
+	cleanBaseOutputPath();
 	convertFolders();
 
 // DO SOME
