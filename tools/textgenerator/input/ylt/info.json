@@ -5,6 +5,6 @@
  "lang": "eng",
  "langNameEnglish": "English",
  "name": "Young's Literal Translation",
- "generator": "unbound",
+ "generator": "generate_unbound",
  "filename": "ylt_utf8_mapped_to_NRSVA.txt",
  "dir": "ltr"}

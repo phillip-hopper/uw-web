@@ -60,7 +60,7 @@ function convertFolder(inputPath) {
 
 
 		try {
-			generator = require('generate_' + generatorName);
+			generator = require(generatorName);
 		} catch (ex) {
 			console.log("Can't find: " + generatorName);
 			return;

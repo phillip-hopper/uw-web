@@ -1,16 +1,21 @@
-# Browser Bible v3 #
+# Unfolding Word Web Bibles #
+[![Build Status](https://travis-ci.org/unfoldingWord-dev/uw-web.svg?branch=develop)](https://travis-ci.org/unfoldingWord-dev/uw-web)
 
-Bible software that runs in the browser. See changelog.md for recent updates.
+A bible software that runs the [Unfolding Word](http://unfoldingword.org) Bibles in the browser. See changelog.md for recent updates.  This code is an update of the [Browser Bible App](https://github.com/digitalbiblesociety/browserbible).
 
-An update to https://github.com/digitalbiblesociety/browserbible.
+### Grabbing the Unfolding Word Bibles ##
 
-### Building Texts ###
+1. Make sure you have [Node.js](http://nodejs.org/download/) installed.
+2. Navigate to the `/tools/textgenerator` folder.
+3. Run `npm install` to install dependencies.
+4. Run `node uw-grab-bibles.js` (This will pull down all the latest versions of UW Bibles)
 
-1. Install Node.js (http://nodejs.org/download/) for your platform
-2. Navigate to the `/tools/textgenerator` folder
-3. Run `npm install` to install dependencies
-4. Run `node generate.js -a` (`-a` will build every version `input` folder, run without `-a` to see help)
-5. Run `node create_texts_index.js` (this creates a list of all versions to startup the app)
+### Building The Unfolding Word Bibles ###
+
+1. Delete all the files (except the README.md) in the `app/content/texts` directory.
+2. Navigate to the `/tools/textgenerator` folder.
+3. Run `node generate.js -a` (`-a` will build every version `input` folder, run without `-a` to see help)
+4. Run `node create_texts_index.js` (this creates a list of all versions to startup the app)
 
 ### Adding Bibles/Texts ###
 

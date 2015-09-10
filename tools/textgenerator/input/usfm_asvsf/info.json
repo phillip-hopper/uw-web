@@ -7,5 +7,5 @@
 	"langName": "English",
 	"langNameEnglish": "English",
 	"dir": "ltr",
-	"generator": "usfm"
+	"generator": "generate_usfm"
 }

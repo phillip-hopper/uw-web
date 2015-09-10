@@ -257,12 +257,29 @@ var App = function() {
 	// if this is the first visit, we need a way to set the language
 	var lngSetting = '',	
 		i18nCookieValue = AppSettings.getCookieValue('i18next');
-		
-	if (i18nCookieValue == '' || i18nCookieValue == null && sofia.config.defaultLanguage != '') {
+
+	var firstTime = (i18nCookieValue == null) ? true : false;
+
+	if (i18nCookieValue == '' || firstTime && sofia.config.defaultLanguage != '') {
 		lngSetting = sofia.config.defaultLanguage;
 	}
 	
 	i18n.init({fallbackLng: 'en', lng: lngSetting, resStore: sofia.resources});
+	/**
+	 * Change the defaults based on the language
+	 */
+	if ((firstTime) && (i18n.lng().toLowerCase().indexOf('ar') > -1)) {
+		/**
+		 * Set the Arabic Version of the Bible
+		 */
+		sofia.config = $.extend(sofia.config, {
+		  settingsPrefix: 'UW344512AR',
+		  windows: [
+		    {type: 'bible', data: {textid: 'uw_ar_avd', fragmentid: 'GN1_1'}}
+		  ],
+		  newBibleWindowVersion: 'uw_ar_avd',
+		});
+	}
 
 	setTimeout(function() {
 

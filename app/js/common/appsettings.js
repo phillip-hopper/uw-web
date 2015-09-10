@@ -11,7 +11,6 @@ var AppSettings = (function() {
 
 		key = sofia.config.settingsPrefix + key;
 
-
 		//console.log('getValue', key, defaultValue);
 
 		var returnValue = {},
