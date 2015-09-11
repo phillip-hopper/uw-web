@@ -246,7 +246,9 @@ var FaithComesByHearingAudio = (function() {
 
 	function init() {
 		$(function(){
-			loadFcbHearingLocations();
+			if (sofia.config.fcbhKey != '') {
+				loadFcbHearingLocations();
+			}
 		});
 	}
 
@@ -269,7 +271,6 @@ var FaithComesByHearingAudio = (function() {
 			url: 'http://dbt.io/library/volume?v=2&reply=jsonp&media=audio&delivery=web&key=' + sofia.config.fcbhKey,
 			success: function(data) {
 				fcbhList = data;
-
 				////console.log('FCBH', fcbhLocation, fcbhList);
 
 			},
