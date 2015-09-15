@@ -20,8 +20,9 @@ publish:
 	git commit publish -m 'Publishing site'
 	git push origin master
 	sleep 2
-	echo "Check https://bible.unfoldingword.org/ in a few moments"
-	sleep 5
+	echo "Waiting for S3 sync to finish"
+	sleep 15
+	echo "Check https://bible.unfoldingword.org/"
 	rm -f publish
 	git commit publish -m 'Cleaning up'
 	git push origin master
