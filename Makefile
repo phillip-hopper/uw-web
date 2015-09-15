@@ -12,6 +12,7 @@ commit:
 	git commit -a
 	git pull --no-edit origin master
 	git push origin master
+	echo "Check https://bible-test.unfoldingword.org/ in a few moments"
 
 publish:
 	touch publish
