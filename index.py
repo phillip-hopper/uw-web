@@ -65,14 +65,6 @@ def index():
 
         gitPull(local_path)
 
-        if os.path.exists('{0}/publish'.format(local_path)):
-            # Wait a few seconds for the git hook initiated rebuild to complete
-            sleep(5)
-            out, ret = runCommand('{0}/s3_push.sh'.format(local_path))
-            if ret > 0:
-                return 'Publish failed'
-            return 'Publish succeeded'
-
         return 'OK'
 
 
