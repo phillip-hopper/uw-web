@@ -222,7 +222,6 @@ var TextChooser = function(container, target, text_type) {
 
 
 		TextLoader.getText(textid, function(data) {
-
 			selectedTextInfo = data;
 
 			hide();

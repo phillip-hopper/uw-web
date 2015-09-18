@@ -24,7 +24,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 						'<div class="app-list text-list"></div>'+
 						'<span class="header-icon info-button"></span>'+
 						'<span class="header-icon audio-button"></span>'+
-                        '<span class="header-icon publish-button"></span>'+
+            '<span class="header-icon publish-button"></span>'+
 					'</div>'+
 				'</div>'+
 				'<div class="scroller-flipper">' +
@@ -40,14 +40,16 @@ var TextWindow = function(id, parent, init_data, text_type) {
 		header = container.find('.scroller-header'),
 		main = container.find('.scroller-main'),
 		info = container.find('.scroller-info'),
-        publishBtn = container.find('.publish-button'),
+    publishBtn = container.find('.publish-button'),
 		infoBtn = container.find('.info-button'),
+		checkingLevelBtn = container.find('.checking-level-button'),
 		wrapper = container.find('.scroller-text-wrapper'),
 		navui = header.find('.text-nav'),
 		textlistui = header.find('.text-list'),
 
 		// objects
 		textChooser = new TextChooser(container, textlistui, text_type),
+		checkingLevelIndicator = new CheckingLevelIndicator(container),
 		textNavigator = new TextNavigator(container, navui),
 		scroller = new Scroller(main),
 
@@ -295,7 +297,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 
 		// update the navigator with the latest header
 		textNavigator.setTextInfo(newTextInfo);
-
+		checkingLevelIndicator.setIndicator(newTextInfo);
 		audioController.setTextInfo(newTextInfo);
 
 		// if it has *changed* then we need to reload the text in the scroller
@@ -425,6 +427,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 
 		// send to objects
 		textChooser.setTextInfo(currentTextInfo);
+		checkingLevelIndicator.setIndicator(currentTextInfo);
 		textlistui.html(currentTextInfo.abbr);
 		parent.tab.find('span').html( currentTextInfo.abbr );
 		textNavigator.setTextInfo(currentTextInfo);
@@ -486,7 +489,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 
 			audioui.appendTo(tcHeader);
 			infoBtn.appendTo(tcHeader);
-            publishBtn.appendTo(tcHeader);
+      publishBtn.appendTo(tcHeader);
 
 			iconsAreNormal = false;
 		}
@@ -502,7 +505,7 @@ var TextWindow = function(id, parent, init_data, text_type) {
 
 			audioui.appendTo(headerInner);
 			infoBtn.appendTo(headerInner);
-            publishBtn.appendTo(tcHeader);
+      publishBtn.appendTo(tcHeader);
 
 			iconsAreNormal = true;
 		}
