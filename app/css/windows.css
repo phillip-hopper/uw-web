@@ -269,6 +269,22 @@ input:focus {
     background-image: url(images/publish.svg);
 }
 
+/*.checking-level-button {
+	display: none;
+}*/
+
+.checking-level-button.level-1 {
+	background-image: url(images/checking_levels/uW-Level1-32px.png);
+}
+
+.checking-level-button.level-2 {
+	background-image: url(images/checking_levels/uW-Level2-32px.png);
+}
+
+.checking-level-button.level-3 {
+	background-image: url(images/checking_levels/uW-Level3-32px.png);
+}
+
 .window .window-header .header-button {
 	padding: 8px 4px 6px 4px;
 	background: transparent;
