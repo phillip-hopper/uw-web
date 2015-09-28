@@ -9,7 +9,8 @@ sofia.config = $.extend(sofia.config, {
     {type: 'bible', data: {textid: 'uw_en_ulb', fragmentid: 'GN1_1'}}
   ],
   newBibleWindowVersion: 'uw_en_ulb',
-  newWindowFragmentid: 'GN1_1'
+  newWindowFragmentid: 'GN1_1',
+  logoLinkTo: 'https://unfoldingword.org/'
 
 });
 

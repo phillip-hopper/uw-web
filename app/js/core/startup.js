@@ -3,7 +3,6 @@ $(function() {
 	// hide initial text area
 	$('#startup').hide();
 
-
 	// test for local file support
 	if (window.location.protocol === 'file:') {
 
@@ -92,6 +91,12 @@ $(function() {
 		sofia.app.init();
 
 		$('.i18n').i18n();
+
+		if (sofia.config.hasOwnProperty('logoLinkTo')) {
+			$('div#app-logo').click(function(event) {
+				window.location = sofia.config.logoLinkTo;
+			});
+		}	
 
 	}
 });
