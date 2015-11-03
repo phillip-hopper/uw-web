@@ -543,6 +543,24 @@ describe('uwGenerateUsfm', function() {
 
     });
 
+    describe("Bug Fixes", function() {
+      /**
+       * If you look at John 3:16 on the web site, you will see it ends with "should not perish but" leaving off the rest. 
+       * I believe the problem is line breaks in the usfm not being rendered correctly. Like html, line breaks in verses 
+       * that are not part of a \q poetry section should be treated as spaces.
+       *
+       * @author Johnathan Pulos <johnathan@missionaldigerati.org>
+       */
+      it("should correctly render John 3 v 16 in the ULB Bible", function() {
+        var inputBasePath = path.join(testFilePath, 'john_3_16_ulb_bug');
+        var result = uw.generate(inputBasePath, baseInfoJson, true, function(){}, function() {});
+        var c = cheerio.load(result.chapterData[0].html);
+        var sixteenText = c('span.JN1_16').first().text();
+        sixteenText.should.equal('For God so loved the world, that he gave his only unique Son, that whoever believes in him should not perish but have everlasting life.');
+      });
+
+    });
+
   });
 
 
