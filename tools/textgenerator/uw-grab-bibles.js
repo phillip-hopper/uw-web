@@ -3,12 +3,13 @@
  * Read the README.md file at the root of this project for more details.
  */
 var uw = require('unfolding-word/uw-grab-available-texts');
+var path = require('path');
 /**
  * Set some of the settings before processing
  *
  */
 uw.catalogUrl = 'https://api.unfoldingword.org/uw/txt/2/catalog.json';
-uw.destinationFolder = 'input';
+uw.destinationFolder = path.join(__dirname, 'input');
 /**
  * Process the current Bibles
  */
